@@ -12,9 +12,8 @@ public sealed class BisbalMod : BaseUnityPlugin
   private Transform playerTransform;
   private float lastPosition;
   private bool playerReady = false;
- string pathSong = @"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Mods\Bisbal.ogg";
-
-
+  string pathSong = @"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Mods\Bisbal.ogg";
+  
   public void Start()
   {
     song = GetSong(pathSong);
@@ -22,7 +21,7 @@ public sealed class BisbalMod : BaseUnityPlugin
     song.volume = 1f;
     song.mute = false;
   }
-  
+
   public void Update()
   {
     if (!IsPlaying())
@@ -39,7 +38,7 @@ public sealed class BisbalMod : BaseUnityPlugin
         PauseSong(song);
     }
   }
-  
+
   private void InitPlayerAndSong()
   {
     playerTransform = HeroController.instance.transform;
@@ -60,7 +59,7 @@ public sealed class BisbalMod : BaseUnityPlugin
     UpdatePosition();
     return hasMoved;
   }
-  
+
   private AudioSource GetSong(string path)
   {
     byte[] fileData = File.ReadAllBytes(path);
@@ -128,7 +127,7 @@ public sealed class BisbalMod : BaseUnityPlugin
       }
     }
   }
-  
+
   private void UpdatePosition()
   {
     lastPosition = playerTransform.position.x;
