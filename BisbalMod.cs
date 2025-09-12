@@ -1,22 +1,7 @@
 using System.Collections;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using GlobalEnums;
-using GlobalSettings;
-using TeamCherry.SharedUtils;
 using UnityEngine;
 using BepInEx;
-using UnityEngine.PlayerLoop;
-using GenericVariableExtension;
-using HutongGames.PlayMaker.Actions;
-using System.Media;
-using InControl;
-using HutongGames.PlayMaker;
-using System.Collections.ObjectModel;
 using System.IO;
 using UnityEngine.Networking;
 
@@ -24,61 +9,58 @@ using UnityEngine.Networking;
 public sealed class BisbalMod : BaseUnityPlugin
 {
   private AudioSource song;
-  private HeroController player;
+  private Transform playerTransform;
   private float lastPosition;
   private bool playerReady = false;
+ string pathSong = @"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Mods\Bisbal.ogg";
 
-  public void Update()
+
+  public void Start()
   {
-    // Inicialización del player y el audio una sola vez
-    if (!playerReady && HeroController.instance != null)
-    {
-      InitPlayerAndSong();
-    }
-
-    // Si todo está listo, controlar la reproducción
-    if (player != null && song != null && song.clip != null)
-    {
-      if (HasMoved(player))
-      {
-        StartPlay(song);
-      }
-      else
-      {
-        StopPlay(song);
-      }
-    }
-  }
-  private void InitPlayerAndSong()
-  {
-    player = HeroController.instance;
-    lastPosition = player.transform.position.x;
-
-    song = player.gameObject.AddComponent<AudioSource>();
+    song = GetSong(pathSong);
     song.loop = true;
     song.volume = 1f;
     song.mute = false;
+  }
+  
+  public void Update()
+  {
+    if (!IsPlaying())
+      return;
 
-    string pathSong = @"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Mods\Bisbal.ogg";
+    if (!playerReady)
+      InitPlayerAndSong();
+
+    if (song != null && song.clip != null)
+    {
+      if (HasMoved(playerTransform))
+        PlaySong(song);
+      else
+        PauseSong(song);
+    }
+  }
+  
+  private void InitPlayerAndSong()
+  {
+    playerTransform = HeroController.instance.transform;
+    lastPosition = playerTransform.position.x;
+
+    song = playerTransform.gameObject.AddComponent<AudioSource>();
+
     StartCoroutine(GetSongCoroutine(pathSong));
 
     Logger.LogInfo("HeroController.instance listo y AudioSource creado");
     playerReady = true;
   }
 
-  private bool HasMoved(HeroController player)
+  private bool HasMoved(Transform player)
   {
-    float currentPosition = player.transform.position.x;
-
-    if (Mathf.Abs(currentPosition - lastPosition) > 0.01f)
-    {
-      lastPosition = currentPosition;
-      return true;
-    }
-    return false;
+    float distance = Math.Abs(lastPosition - player.position.x);
+    bool hasMoved = distance > 0.01f;
+    UpdatePosition();
+    return hasMoved;
   }
-
-
+  
   private AudioSource GetSong(string path)
   {
     byte[] fileData = File.ReadAllBytes(path);
@@ -95,7 +77,8 @@ public sealed class BisbalMod : BaseUnityPlugin
 
     return song;
   }
-  private bool StartPlay(AudioSource song)
+
+  private bool PlaySong(AudioSource song)
   {
     if (song != null && song.clip != null && !song.isPlaying)
     {
@@ -105,7 +88,8 @@ public sealed class BisbalMod : BaseUnityPlugin
     }
     return false;
   }
-  private bool StopPlay(AudioSource song)
+
+  private bool PauseSong(AudioSource song)
   {
     if (song != null && song.isPlaying)
     {
@@ -115,10 +99,14 @@ public sealed class BisbalMod : BaseUnityPlugin
     }
     return false;
   }
+
   private bool IsPlaying()
   {
-    return song != null && song.isPlaying;
+    if (GameManager._instance.GameState == GlobalEnums.GameState.PLAYING)
+      return true;
+    return false;
   }
+
   private IEnumerator GetSongCoroutine(string path)
   {
     string url = "file:///" + path.Replace("\\", "/");
@@ -127,9 +115,8 @@ public sealed class BisbalMod : BaseUnityPlugin
       yield return www.SendWebRequest();
 
       if (www.result != UnityWebRequest.Result.Success)
-      {
         Logger.LogError("Error al cargar la canción: " + www.error);
-      }
+
       else
       {
         AudioClip clip = UnityEngine.Networking.DownloadHandlerAudioClip.GetContent(www);
@@ -140,5 +127,10 @@ public sealed class BisbalMod : BaseUnityPlugin
         }
       }
     }
+  }
+  
+  private void UpdatePosition()
+  {
+    lastPosition = playerTransform.position.x;
   }
 }
