@@ -15,4 +15,6 @@ Usage:
 
 *  Once the mod is installed, launch the game.
 
+* If you die the sound effect will play
+
 Enjoy!
