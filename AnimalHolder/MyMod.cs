@@ -6,10 +6,12 @@ using UnityEngine.Networking;
 using BepInEx.Configuration;
 using System.IO;
 using GlobalEnums;
+using static IPlayOnDie;
 
 [BepInPlugin("com.animaleco.silksong.mymod", "MyMod", "1.0.0")]
-public class MyMod : BaseUnityPlugin
+public class MyMod : BaseUnityPlugin, IPlayOnDie
 {
+   string pathSound = @"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Sounds\Cry.ogg";
    private bool isPlayerConfigured = false;
 
    public void PrintDeath()
@@ -35,4 +37,24 @@ public class MyMod : BaseUnityPlugin
       isPlayerConfigured = true;
       Logger.LogInfo("Configured player");
    }
+
+    public void SetOnDieFunction(Action function)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool IsPlaying()
+    {
+        throw new NotImplementedException();
+    }
+
+    public AudioClip LoadSong()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void PlaySong()
+    {
+        throw new NotImplementedException();
+    }
 }
