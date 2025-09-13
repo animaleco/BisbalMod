@@ -16,10 +16,7 @@ public sealed class BisbalMod : BaseUnityPlugin
   
   public void Start()
   {
-    song = GetSong(pathSong);
-    song.loop = true;
-    song.volume = 1f;
-    song.mute = false;
+    
   }
 
   public void Update()
@@ -45,8 +42,10 @@ public sealed class BisbalMod : BaseUnityPlugin
     lastPosition = playerTransform.position.x;
 
     song = playerTransform.gameObject.AddComponent<AudioSource>();
-
-    StartCoroutine(GetSongCoroutine(pathSong));
+    song.loop = true;
+    song.volume = 1f;
+    song.mute = false;
+    StartCoroutine(SetAudioClip(pathSong));
 
     Logger.LogInfo("HeroController.instance listo y AudioSource creado");
     playerReady = true;
@@ -58,23 +57,6 @@ public sealed class BisbalMod : BaseUnityPlugin
     bool hasMoved = distance > 0.01f;
     UpdatePosition();
     return hasMoved;
-  }
-
-  private AudioSource GetSong(string path)
-  {
-    byte[] fileData = File.ReadAllBytes(path);
-
-    string url = "file:///" + path.Replace("\\", "/");
-    var www = UnityEngine.Networking.UnityWebRequestMultimedia.GetAudioClip(url, UnityEngine.AudioType.OGGVORBIS);
-    var asyncOp = www.SendWebRequest();
-    while (!asyncOp.isDone) { }
-
-    AudioClip clip = UnityEngine.Networking.DownloadHandlerAudioClip.GetContent(www);
-
-    if (song != null)
-      song.clip = clip;
-
-    return song;
   }
 
   private bool PlaySong(AudioSource song)
@@ -106,7 +88,7 @@ public sealed class BisbalMod : BaseUnityPlugin
     return false;
   }
 
-  private IEnumerator GetSongCoroutine(string path)
+  private IEnumerator SetAudioClip(string path)
   {
     string url = "file:///" + path.Replace("\\", "/");
     using (var www = UnityEngine.Networking.UnityWebRequestMultimedia.GetAudioClip(url, UnityEngine.AudioType.OGGVORBIS))
