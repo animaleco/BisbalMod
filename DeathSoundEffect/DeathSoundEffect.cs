@@ -7,17 +7,24 @@ using BepInEx.Configuration;
 using System.IO;
 using GlobalEnums;
 
-namespace MyMod;
+namespace DeathSoundEffect;
 
-[BepInPlugin("com.animaleco.silksong.mymod", "MyMod", "1.0.0")]
-public class MyMod : BaseUnityPlugin, IPlayOnDie
+[BepInPlugin("com.animaleco.silksong.deathsoundeffect", "DeathSoundEffect", "1.0.0")]
+public class DeathSoundEffect : BaseUnityPlugin, IPlayOnDie
 {
     private AudioClip song;
     private AudioSource aSource;
     private HeroController player;
     private bool isPlayerConfigured = false;
-    string pathSong = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hollow Knight Silksong\\Sounds\\Cry.ogg";
+    private const string SongFileName = "Cry.ogg";
+    private string pathSong;
 
+
+    public void Awake()
+    {
+        var pluginDir = Path.GetDirectoryName(Info.Location);
+        pathSong = Path.Combine(pluginDir, SongFileName);
+    }
     public void Update()
     {
         // Check if is playing

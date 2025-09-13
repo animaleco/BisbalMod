@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-namespace MyMod;
+namespace DeathSoundEffect;
 
 public interface IPlayOnDie
 {
