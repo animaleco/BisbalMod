@@ -6,8 +6,8 @@ using UnityEngine.Networking;
 using BepInEx.Configuration;
 using System.IO;
 
-[BepInPlugin("com.animaleco.silksong.customsong", "CustomSong", "1.0.0")]
-public sealed class CustomSong  : BaseUnityPlugin
+[BepInPlugin("com.animaleco.silksong.customsound", "CustomSound", "1.0.0")]
+public sealed class CustomSound  : BaseUnityPlugin
 {
   private AudioSource song;
   private Transform playerTransform;

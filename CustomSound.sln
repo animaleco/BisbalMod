@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSong", "CustomSong.csproj", "{23D851E9-F0AF-C3C9-8031-3964FD6764D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSound", "CustomSound.csproj", "{23D851E9-F0AF-C3C9-8031-3964FD6764D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
