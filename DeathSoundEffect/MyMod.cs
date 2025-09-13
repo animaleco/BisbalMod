@@ -12,42 +12,37 @@ namespace MyMod;
 [BepInPlugin("com.animaleco.silksong.mymod", "MyMod", "1.0.0")]
 public class MyMod : BaseUnityPlugin, IPlayOnDie
 {
+    private AudioSource soundEffect;
+    private HeroController player;
     private bool isPlayerConfigured = false;
-
-    public void PrintDeath()
-    {
-        Logger.LogInfo("RIP");
-
-    }
 
     public void Update()
     {
         // Check if is playing
-        {
+        if (IsPlaying())
             if (!isPlayerConfigured)
                 ConfigurePlayer();
-        }
     }
 
     public void ConfigurePlayer()
     {
-        Logger.LogInfo("Enter configured player");
-        HeroController.instance.OnDeath += PrintDeath;
-        isPlayerConfigured = true;
-        Logger.LogInfo("Configured player");
-    }
+        player = HeroController.instance;
 
-    public void SetOnDieFunction(Action function)
-    {
-        throw new NotImplementedException();
+        soundEffect = player.gameObject.AddComponent<AudioSource>();
+        soundEffect.loop = false;
+        soundEffect.volume = 0.5f;
+        soundEffect.mute = false;
+        soundEffect.clip = LoadSong();
+        player.OnDeath += PlaySong;
+        isPlayerConfigured = true;
     }
 
     public bool IsPlaying()
     {
         if (GameManager._instance.GameState == GlobalEnums.GameState.PLAYING)
-        {
+            return true;
 
-        }
+        return false;
     }
 
     public AudioClip LoadSong()
@@ -57,6 +52,6 @@ public class MyMod : BaseUnityPlugin, IPlayOnDie
 
     public void PlaySong()
     {
-        throw new NotImplementedException();
+        soundEffect.Play();
     }
 }

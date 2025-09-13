@@ -5,8 +5,6 @@ namespace MyMod;
 
 public interface IPlayOnDie
 {
-    // Add a function to OnDie() event
-    void SetOnDieFunction(Action function);
     // Add audio source, adjust volume... And play song
     void ConfigurePlayer();
     // Is player playing? GlobalEnums..
