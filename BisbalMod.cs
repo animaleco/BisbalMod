@@ -8,7 +8,7 @@ using System.IO;
 [BepInPlugin("com.animaleco.silksong.bisbalmod", "BisbalMod", "1.0.0")]
 public sealed class BisbalMod : BaseUnityPlugin
 {
-  private AudioSource song;
+private AudioSource song;
 private Transform playerTransform;
 private float lastPosition;
 private bool playerReady = false;
@@ -32,7 +32,7 @@ public void Awake()
     lastKnownSongPath = songPath.Value;
 
     songPath.SettingChanged += (sender, args) => {
-        Logger.LogInfo("SongPath cambiado via BepInEx: marcando para recargar canción...");
+        Logger.LogInfo("SongPath changed via BepInEx: checking to reload song...");
         lastKnownSongPath = songPath.Value;
         needsReload = true;
     };
@@ -48,7 +48,7 @@ private void SetupConfigFileWatcher()
         string configDirectory = Path.GetDirectoryName(configFilePath);
         string configFileName = Path.GetFileName(configFilePath);
 
-        Logger.LogInfo($"Monitoreando archivo de configuración: {configFilePath}");
+        Logger.LogInfo($"Monitoring configuration file: {configFilePath}");
 
         configWatcher = new FileSystemWatcher();
         configWatcher.Path = configDirectory;
@@ -58,11 +58,11 @@ private void SetupConfigFileWatcher()
         configWatcher.Changed += OnConfigFileChanged;
         configWatcher.EnableRaisingEvents = true;
 
-        Logger.LogInfo("FileSystemWatcher configurado correctamente");
+        Logger.LogInfo("FileSystemWatcher configured correctly");
     }
     catch (System.Exception ex)
     {
-        Logger.LogError($"Error configurando FileSystemWatcher: {ex.Message}");
+        Logger.LogError($"Error configuring FileSystemWatcher: {ex.Message}");
     }
 }
 
@@ -74,7 +74,7 @@ private void OnConfigFileChanged(object sender, FileSystemEventArgs e)
 
     lastConfigChangeTime = now;
 
-    Logger.LogInfo("Archivo de configuración modificado externamente");
+    Logger.LogInfo("Configuration file modified externally");
     
     StartCoroutine(CheckConfigChangeDelayed());
 }
@@ -89,7 +89,7 @@ private IEnumerator CheckConfigChangeDelayed()
         
         if (!string.IsNullOrEmpty(newSongPath) && newSongPath != lastKnownSongPath)
         {
-            Logger.LogInfo($"Nueva ruta detectada: {newSongPath}");
+            Logger.LogInfo($"New route detected: {newSongPath}");
             
             songPath.Value = newSongPath;
             lastKnownSongPath = newSongPath;
@@ -98,7 +98,7 @@ private IEnumerator CheckConfigChangeDelayed()
     }
     catch (System.Exception ex)
     {
-        Logger.LogError($"Error leyendo configuración: {ex.Message}");
+        Logger.LogError($"Error reading configuration: {ex.Message}");
         
         try
       {
@@ -111,7 +111,7 @@ private IEnumerator CheckConfigChangeDelayed()
       }
       catch (System.Exception ex2)
       {
-        Logger.LogError($"Error en fallback de recarga: {ex2.Message}");
+        Logger.LogError($"Reload fallback erorr: {ex2.Message}");
       }
     }
 }
@@ -151,7 +151,7 @@ private string ReadSongPathFromConfig()
     }
     catch (System.Exception ex)
     {
-        Logger.LogError($"Error leyendo archivo de configuración: {ex.Message}");
+        Logger.LogError($"Error reading configuration file: {ex.Message}");
     }
     
     return null;
@@ -194,13 +194,13 @@ private void InitPlayerAndSong()
     song.mute = false;
     
     StartCoroutine(SetAudioClip(songPath.Value));
-    Logger.LogInfo("HeroController.instance listo y AudioSource creado");
+    Logger.LogInfo("HeroController.instance ready and AudioSource created");
     playerReady = true;
 }
 
 private IEnumerator ReloadSong()
 {
-    Logger.LogInfo("Recargando canción...");
+    Logger.LogInfo("Reloading song...");
     
     if (song != null)
     {
@@ -262,7 +262,7 @@ private IEnumerator SetAudioClip(string path)
 
     if (!System.IO.File.Exists(path))
     {
-        Logger.LogError("Archivo no encontrado: " + path);
+        Logger.LogError("File not found: " + path);
         yield break;
     }
 
@@ -273,7 +273,7 @@ private IEnumerator SetAudioClip(string path)
 
         if (www.result != UnityWebRequest.Result.Success)
         {
-            Logger.LogError("Error al cargar la canción: " + www.error);
+            Logger.LogError("Error loading song: " + www.error);
         }
         else
         {
@@ -281,7 +281,7 @@ private IEnumerator SetAudioClip(string path)
             if (song != null)
             {
                 song.clip = clip;
-                Logger.LogInfo("Canción cargada correctamente: " + path);
+                Logger.LogInfo("Song loaded successfully: " + path);
             }
         }
     }
