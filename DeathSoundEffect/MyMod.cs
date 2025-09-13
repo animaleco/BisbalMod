@@ -12,9 +12,11 @@ namespace MyMod;
 [BepInPlugin("com.animaleco.silksong.mymod", "MyMod", "1.0.0")]
 public class MyMod : BaseUnityPlugin, IPlayOnDie
 {
-    private AudioSource soundEffect;
+    private AudioClip song;
+    private AudioSource aSource;
     private HeroController player;
     private bool isPlayerConfigured = false;
+    string pathSong = @"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Sounds\Cry.ogg";
 
     public void Update()
     {
@@ -28,11 +30,12 @@ public class MyMod : BaseUnityPlugin, IPlayOnDie
     {
         player = HeroController.instance;
 
-        soundEffect = player.gameObject.AddComponent<AudioSource>();
-        soundEffect.loop = false;
-        soundEffect.volume = 0.5f;
-        soundEffect.mute = false;
-        soundEffect.clip = LoadSong();
+        aSource = player.gameObject.AddComponent<AudioSource>();
+        aSource.loop = false;
+        aSource.volume = 0.5f;
+        aSource.mute = false;
+        StartCoroutine(LoadSong(pathSong));
+        aSource.clip = song;
         player.OnDeath += PlaySong;
         isPlayerConfigured = true;
     }
@@ -45,13 +48,18 @@ public class MyMod : BaseUnityPlugin, IPlayOnDie
         return false;
     }
 
-    public AudioClip LoadSong()
+    public IEnumerator LoadSong(string path)
     {
-        throw new NotImplementedException();
+        using (var request = UnityWebRequestMultimedia.GetAudioClip("file:///" + path.Replace("\\", "/ "), AudioType.UNKNOWN))
+        {
+            yield return request.SendWebRequest();
+            song = DownloadHandlerAudioClip.GetContent(request);
+        }
     }
 
     public void PlaySong()
     {
-        soundEffect.Play();
+        aSource.Play();
     }
+
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 namespace MyMod;
 
@@ -10,7 +11,7 @@ public interface IPlayOnDie
     // Is player playing? GlobalEnums..
     bool IsPlaying();
     // Load the song from disk. Bepinex resources? How to add the file to the mod?
-    AudioClip LoadSong();
+    IEnumerator LoadSong(string path);
     // Play song
     void PlaySong();
 }
