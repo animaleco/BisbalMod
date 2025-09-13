@@ -9,11 +9,12 @@ Installation:
 * Install BepInEx
 
 * Download the mod .zip and extract it into your game's root folder. It should look like:
-/BepInEx/plugins/DeathSoundEffect/DeathSoundEffect.dll
+/BepInEx/plugins/DeathSoundEffect/DeathSoundEffect.dll (The Cry.ogg will be there too)
 
 Usage:
 
-*  Once the mod is installed, launch the game.
+
+* Once the mod is installed, launch the game.
 
 * If you die the sound effect will play
 
