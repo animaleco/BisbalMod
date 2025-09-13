@@ -1,6 +1,6 @@
 # CustomSong
 
-A mod that plays a sound file when the player moves.
+A mod that plays a sound file while the player is moving.
 
 I made this mod just for fun, as practice to learn programming.
 
