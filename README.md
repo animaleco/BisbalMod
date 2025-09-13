@@ -6,9 +6,9 @@ I made this mod just for fun, as practice to learn programming.
 
 Installation:
 
-Install BepInEx
+* Install BepInEx
 
-Download the mod .zip and extract it into your game's root folder. It should look like:
+* Download the mod .zip and extract it into your game's root folder. It should look like:
 /BepInEx/plugins/CustomSong/CustomSong.dll
 
 Usage:
