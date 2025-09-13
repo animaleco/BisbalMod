@@ -11,7 +11,7 @@ public interface IPlayOnDie
     // Is player playing? GlobalEnums..
     bool IsPlaying();
     // Load the song from disk. Bepinex resources? How to add the file to the mod?
-    IEnumerator LoadSong(string path);
+    IEnumerator LoadSong(string path, AudioSource a);
     // Play song
     void PlaySong();
 }

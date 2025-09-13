@@ -16,7 +16,7 @@ public class MyMod : BaseUnityPlugin, IPlayOnDie
     private AudioSource aSource;
     private HeroController player;
     private bool isPlayerConfigured = false;
-    string pathSong = @"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Sounds\Cry.ogg";
+    string pathSong = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hollow Knight Silksong\\Sounds\\Cry.ogg";
 
     public void Update()
     {
@@ -28,14 +28,14 @@ public class MyMod : BaseUnityPlugin, IPlayOnDie
 
     public void ConfigurePlayer()
     {
+        Logger.LogInfo("Entrando en ConfigurePlayer");
         player = HeroController.instance;
 
         aSource = player.gameObject.AddComponent<AudioSource>();
         aSource.loop = false;
-        aSource.volume = 0.5f;
+        aSource.volume = 1f;
         aSource.mute = false;
-        StartCoroutine(LoadSong(pathSong));
-        aSource.clip = song;
+        StartCoroutine(LoadSong(pathSong, aSource));
         player.OnDeath += PlaySong;
         isPlayerConfigured = true;
     }
@@ -48,17 +48,24 @@ public class MyMod : BaseUnityPlugin, IPlayOnDie
         return false;
     }
 
-    public IEnumerator LoadSong(string path)
+    public IEnumerator LoadSong(string path, AudioSource a)
     {
-        using (var request = UnityWebRequestMultimedia.GetAudioClip("file:///" + path.Replace("\\", "/ "), AudioType.UNKNOWN))
+        Logger.LogInfo("Entrando en LoadSong");
+        using (var request = UnityWebRequestMultimedia.GetAudioClip("file:///" + path.Replace("\\", "/"), AudioType.UNKNOWN))
         {
             yield return request.SendWebRequest();
             song = DownloadHandlerAudioClip.GetContent(request);
+            a.clip = song;
+            if (song == null)
+                Logger.LogInfo("song null");
+            else
+                Logger.LogInfo("song no null");
         }
     }
 
     public void PlaySong()
     {
+        Logger.LogInfo("Entrando en PlaySong");
         aSource.Play();
     }
 
