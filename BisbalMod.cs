@@ -2,8 +2,8 @@ using System.Collections;
 using System;
 using UnityEngine;
 using BepInEx;
-using System.IO;
 using UnityEngine.Networking;
+using BepInEx.Configuration;
 
 [BepInPlugin("com.animaleco.silksong.bisbalmod", "BisbalMod", "1.0.0")]
 public sealed class BisbalMod : BaseUnityPlugin
@@ -13,10 +13,22 @@ public sealed class BisbalMod : BaseUnityPlugin
   private float lastPosition;
   private bool playerReady = false;
   string pathSong = @"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Mods\Bisbal.ogg";
+
+  private ConfigEntry<string> songPath;
   
+  public void Awake()
+  {
+    songPath = Config.Bind(
+      "General",
+      "SongPath",
+      @"C:\MyMusic\Bisbal.ogg",
+      "Absolute path to the music file (.ogg)"            
+    );
+  }
+
   public void Start()
   {
-    
+
   }
 
   public void Update()
