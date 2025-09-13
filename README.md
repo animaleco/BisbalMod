@@ -13,15 +13,14 @@ Download the mod .zip and extract it into your game's root folder. It should loo
 
 Usage:
 
-Once the mod is installed, launch the game.
+*  Once the mod is installed, launch the game.
 
-A config file will be created at:
+* A config file will be created at:
 <GameFolder>/BepInEx/config/CustomSong.cfg
 
-Open it and change the SongPath to the location of the song or sound you want to use, e.g.:
+* Open it and change the SongPath to the location of the song or sound you want to use, e.g.:
 C:\Users\YourUser\Music\Filename.ogg
 
-IMPORTANT: The file must be .ogg. You can use an online converter.
+* IMPORTANT: The file must be .ogg. You can use an online converter.
 
 Enjoy!
-
