@@ -1,4 +1,4 @@
-# CustomSong
+# CustomSound
 
 A mod that plays a sound file while the player is moving.
 
