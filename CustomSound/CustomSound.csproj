@@ -6,20 +6,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>disable</Nullable>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>bin\</OutputPath>
     <OutputPath>C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\BepInEx\plugins\</OutputPath>
   </PropertyGroup>
 
 <ItemGroup>
-  <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-    <HintPath>..\Hollow Knight Silksong_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-    <Private>false</Private>
-  </Reference>
-
-  <Reference Include="UnityEngine.UnityWebRequestModule">
-    <HintPath>..\Hollow Knight Silksong_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
-    <Private>false</Private>
-  </Reference>
 
   <Reference Include="Assembly-CSharp">
     <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Hollow Knight Silksong_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -44,6 +34,17 @@
   <Reference Include="UnityEngine.AudioModule">
     <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Hollow Knight Silksong_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
   </Reference>
+  
+  <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+    <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Hollow Knight Silksong_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    <Private>false</Private>
+  </Reference>
+
+  <Reference Include="UnityEngine.UnityWebRequestModule">
+    <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong\Hollow Knight Silksong_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    <Private>false</Private>
+  </Reference>
+
   </ItemGroup>
 
 </Project>
